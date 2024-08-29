@@ -12,6 +12,10 @@ public class Main {
     
     Node node = tree.find(2);
     
+    tree.insert(0);
+    
+    tree.printTreeV2();
+    
     System.out.println("found: " + node.data);
   }
 }

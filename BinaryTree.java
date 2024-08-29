@@ -27,7 +27,7 @@ public class BinaryTree {
   private void printTree(Node root, int depth) {
     if (root == null) return;
     
-    System.out.println(depth + " - " + root.data);
+    System.out.println("depth: " + depth + " - " + "data: " + root.data);
     printTree(root.left, depth + 1);
     printTree(root.right, depth + 1);
   }
@@ -71,6 +71,19 @@ public class BinaryTree {
     
     if (value > node.data) return findRec(value, node.right);
     if (value < node.data) return findRec(value, node.left);
+    
+    return node;
+  }
+  
+  public void insert(int value) {
+    this.root = insertRec(value, this.root);
+  }
+  
+  private Node insertRec(int value, Node node) {
+    if (node == null) return new Node(value); 
+    
+    if (value > node.data) node.right = insertRec(value, node.right);
+    if (value < node.data) node.left = insertRec(value, node.left);
     
     return node;
   }
