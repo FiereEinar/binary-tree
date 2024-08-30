@@ -9,7 +9,6 @@ public class BinaryTree {
 
     this.array = formattedArr;
     this.root = buildTree(formattedArr, 0, formattedArr.length - 1);
-    printTree(this.root, 0);
   }
   
   private Node buildTree(int[] arr, int start, int end) {
@@ -24,42 +23,22 @@ public class BinaryTree {
     return node;
   }
   
-  private void printTree(Node root, int depth) {
-    if (root == null) return;
-    
-    System.out.println("depth: " + depth + " - " + "data: " + root.data);
-    printTree(root.left, depth + 1);
-    printTree(root.right, depth + 1);
+  public void printBinaryTree(Node node) {
+    printBinaryTree(node, 0, "Root: ");
   }
   
-  // TODO: maybe add some proper spacing so it looks like a pyramid
-  public void printTreeV2() {
-    if (this.root == null) return;
-    
-    Queue<Node> queue = new LinkedList<Node>();
-    queue.offer(this.root);
-    
-    String result = "";
-    int i = 0;
-    int nextLine = 1;
-    
-    while (!queue.isEmpty()) {
-      Node node = queue.poll();
+  private void printBinaryTree(Node node, int level, String side) {
+      if (node == null) return;
+
+      // Indentation based on level in the tree
+      String indent = " ".repeat(level * 6);
       
-      result += "" + node.data;
-      if (node.left != null) queue.offer(node.left);
-      if (node.right != null) queue.offer(node.right);
+      // Print the current node with its side and level
+      System.out.println(indent + side + node.data);
       
-      i++;
-      
-      if (nextLine == i) {
-        result += "\n";
-        nextLine = nextLine * 2;
-        i = 0;
-      }
-    }
-    
-    System.out.println(result);
+      // Recursively print the left and right children
+      printBinaryTree(node.right, level + 1, "R --- ");
+      printBinaryTree(node.left, level + 1, "L --- ");
   }
   
   public Node find(int value) {
@@ -86,5 +65,42 @@ public class BinaryTree {
     if (value < node.data) node.left = insertRec(value, node.left);
     
     return node;
+  }
+  
+  public int height() {
+    HashMap<Integer, Integer> heights = new HashMap<Integer, Integer>();
+    Queue<Node> queue = new LinkedList<Node>();
+    
+    queue.offer(this.root);
+    heights.put(this.root.data, 0);
+    
+    int max = 0;
+    
+    while (!queue.isEmpty()) {
+      Node current = queue.poll();
+      int prevHeight = heights.get(current.data);
+      
+      if (prevHeight > max) max = prevHeight;
+      
+      if (current.left != null) {
+        queue.offer(current.left);
+        heights.put(current.left.data, prevHeight + 1);
+      }
+      
+      if (current.right != null) {
+        queue.offer(current.right);
+        heights.put(current.right.data, prevHeight + 1);
+      }
+    }
+    
+    return max;
+  }
+  
+  private void heightRec(Node node) {
+    
+  }
+  
+  public Boolean isBalanced() {
+    return true;
   }
 }
