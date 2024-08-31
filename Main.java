@@ -13,18 +13,28 @@ public class Main {
     System.out.println("Tree: ");
     tree.printBinaryTree(tree.root);
     System.out.println("Height: " + tree.height());
+    System.out.println("Balanced: " + tree.isBalanced());
     
     tree.insert(0);
     
     System.out.println("Tree: ");
     tree.printBinaryTree(tree.root);
     System.out.println("Height: " + tree.height());
+    System.out.println("Balanced: " + tree.isBalanced());
     
     tree.insert(-1);
     
     System.out.println("Tree: ");
     tree.printBinaryTree(tree.root);
     System.out.println("Height: " + tree.height());
+    System.out.println("Balanced: " + tree.isBalanced());
+    
+    tree.rebalance();
+    
+    System.out.println("Tree: ");
+    tree.printBinaryTree(tree.root);
+    System.out.println("Height: " + tree.height());
+    System.out.println("Balanced: " + tree.isBalanced());
     
     Node node = tree.find(2);
     System.out.println("found: " + node.data);

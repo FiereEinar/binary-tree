@@ -68,11 +68,17 @@ public class BinaryTree {
   }
   
   public int height() {
+    return height(this.root);
+  }
+  
+  private int height(Node node) {
+    if (node == null) return 0;
+    
     HashMap<Integer, Integer> heights = new HashMap<Integer, Integer>();
     Queue<Node> queue = new LinkedList<Node>();
     
-    queue.offer(this.root);
-    heights.put(this.root.data, 0);
+    queue.offer(node);
+    heights.put(node.data, 0);
     
     int max = 0;
     
@@ -96,11 +102,45 @@ public class BinaryTree {
     return max;
   }
   
-  private void heightRec(Node node) {
+  public Boolean isBalanced() {
+    Queue<Node> queue = new LinkedList<Node>();
+    queue.offer(this.root);
     
+    while (!queue.isEmpty()) {
+      Node current = queue.poll();
+      
+      int left = height(current.left);
+      int right = height(current.right);
+      
+      if (Math.abs(left - right) >= 2) return false;
+      
+      if (current.left != null) queue.offer(current.left);
+      if (current.right != null) queue.offer(current.right);
+    }
+    
+    return true;
   }
   
-  public Boolean isBalanced() {
-    return true;
+  public void rebalance() {
+    ArrayList<Integer> datas = new ArrayList<>();
+    Queue<Node> queue = new LinkedList<Node>();
+    queue.offer(this.root);
+    
+    while(!queue.isEmpty()) {
+      Node current = queue.poll();
+      
+      datas.add(current.data);
+      
+      if (current.left != null) queue.offer(current.left);
+      if (current.right != null) queue.offer(current.right);
+    }
+    
+    int[] arr = new int[datas.size()];
+    
+    for (int i = 0; i < datas.size(); i++) {
+      arr[i] = datas.get(i);
+    }
+    
+    this.root = buildTree(arr, 0, arr.length - 1);
   }
 }
