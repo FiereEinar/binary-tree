@@ -143,4 +143,39 @@ public class BinaryTree {
     
     this.root = buildTree(arr, 0, arr.length - 1);
   }
+
+  public void delete(int value) {
+    this.root = deleteRec(this.root, value);
+}
+
+private Node deleteRec(Node node, int value) {
+    if (node == null) return null;
+
+    if (value < node.data) {
+      node.left = deleteRec(node.left, value);
+    } else if (value > node.data) {
+        node.right = deleteRec(node.right, value);
+    } else {
+      if (node.left == null) {
+        return node.right;
+      } else if (node.right == null) {
+        return node.left;
+      }
+
+      node.data = minValue(node.right);
+
+      node.right = deleteRec(node.right, node.data);
+    }
+    return node;
+}
+
+private int minValue(Node node) {
+    int minValue = node.data;
+    while (node.left != null) {
+      minValue = node.left.data;
+      node = node.left;
+    }
+
+    return minValue;
+  }
 }
